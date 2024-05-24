@@ -1,15 +1,6 @@
 "use strict";
-function editNav() {
-    let x = document.getElementById("myTopnav");
-    x
-        ? x.className === "topnav"
-            ? (x.className += " responsive")
-            : (x.className = "topnav")
-        : console.error("Element with ID 'myTopnav' not found.");
-}
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
 const btnClose = document.querySelector(".close");
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 btnClose === null || btnClose === void 0 ? void 0 : btnClose.addEventListener("click", closeModal);
