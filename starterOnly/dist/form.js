@@ -8,6 +8,7 @@ const tournament = document.getElementById("quantity");
 const locations = document.querySelectorAll("input[name='location']");
 let selectedLocation;
 const checkToS = document.getElementById("checkbox1");
+const submitButton = document.getElementById("submit-btn");
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", submitForm);
 function submitForm(event) {
     event.preventDefault();
@@ -20,11 +21,18 @@ function submitForm(event) {
             tournamentQty: tournament.value,
             location: selectedLocation,
         };
+        updateSubmitButton();
         console.log("Form submitted with ", validData);
     }
     else {
         console.log("Form validation failed.");
     }
+}
+function updateSubmitButton() {
+    submitButton.value = "Fermer";
+    submitButton.type = "button";
+    submitButton.addEventListener("click", closeModal);
+    form === null || form === void 0 ? void 0 : form.removeEventListener("submit", submitForm);
 }
 function validate() {
     let isValid = true;

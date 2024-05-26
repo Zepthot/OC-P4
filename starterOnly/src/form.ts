@@ -11,6 +11,7 @@ const locations = document.querySelectorAll<HTMLInputElement>(
 );
 let selectedLocation: string;
 const checkToS = document.getElementById("checkbox1") as HTMLInputElement;
+const submitButton = document.getElementById("submit-btn") as HTMLInputElement;
 
 // submit event
 form?.addEventListener("submit", submitForm);
@@ -27,10 +28,19 @@ function submitForm(event: SubmitEvent) {
       tournamentQty: tournament.value,
       location: selectedLocation,
     };
+    updateSubmitButton();
     console.log("Form submitted with ", validData);
   } else {
     console.log("Form validation failed.");
   }
+}
+
+// update submit button to a close button
+function updateSubmitButton() {
+  submitButton.value = "Fermer";
+  submitButton.type = "button";
+  submitButton.addEventListener("click", closeModal);
+  form?.removeEventListener("submit", submitForm);
 }
 
 // validate inputs
