@@ -182,7 +182,7 @@ main {
   overflow: hidden;
   position: relative;
   color: #fff;
-  padding-top: 10px;
+  /* padding-top: 10px; */
 }
 
 .modal-body {
@@ -337,6 +337,20 @@ input[data-error]::after {
   color: #fff;
   cursor: pointer;
   border: 0;
+}
+
+.modal-confirm {
+  display: none;
+  min-height: 75vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.message {
+  text-align: center;
+  width: 100%;
+  font-size: 36px;
+  margin: auto;
 }
 /* custom select styles */
 .custom-select {

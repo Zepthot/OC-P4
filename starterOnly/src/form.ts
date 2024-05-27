@@ -1,5 +1,4 @@
 // DOM Elements
-// const formData = document.querySelectorAll<HTMLElement>(".formData");
 const form = document.querySelector<HTMLFormElement>("form[name='reserve']");
 const firstName = document.getElementById("first") as HTMLInputElement;
 const lastName = document.getElementById("last") as HTMLInputElement;
@@ -11,7 +10,9 @@ const locations = document.querySelectorAll<HTMLInputElement>(
 );
 let selectedLocation: string;
 const checkToS = document.getElementById("checkbox1") as HTMLInputElement;
-const submitButton = document.getElementById("submit-btn") as HTMLInputElement;
+const nextEvent = document.getElementById("checkbox2") as HTMLInputElement;
+const modalForm = document.querySelector(".modal-form") as HTMLElement;
+const modalConfirm = document.querySelector(".modal-confirm") as HTMLElement;
 
 // submit event
 form?.addEventListener("submit", submitForm);
@@ -27,8 +28,9 @@ function submitForm(event: SubmitEvent) {
       birthdate: birthdate.value,
       tournamentQty: tournament.value,
       location: selectedLocation,
+      nextEvent: nextEvent.checked,
     };
-    updateSubmitButton();
+    switchToConfirmModal();
     console.log("Form submitted with ", validData);
   } else {
     console.log("Form validation failed.");
@@ -36,11 +38,9 @@ function submitForm(event: SubmitEvent) {
 }
 
 // update submit button to a close button
-function updateSubmitButton() {
-  submitButton.value = "Fermer";
-  submitButton.type = "button";
-  submitButton.addEventListener("click", closeModal);
-  form?.removeEventListener("submit", submitForm);
+function switchToConfirmModal() {
+  modalForm.style.display = "none";
+  modalConfirm.style.display = "flex";
 }
 
 // validate inputs
@@ -76,7 +76,7 @@ function validate(): boolean {
   }
   // tournament quantity
   if (!tournament.value || isNaN(Number(tournament.value))) {
-    showError(tournament, "Veuillez entrer un nombre valide entre 0 et 99.");
+    showError(tournament, "Veuillez entrer un nombre valide.");
     isValid = false;
   } else {
     hideError(tournament);

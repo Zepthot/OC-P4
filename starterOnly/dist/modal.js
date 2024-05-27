@@ -2,8 +2,10 @@
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const btnClose = document.querySelector(".close");
+const btnCloseConfirm = document.getElementById("btn-close");
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 btnClose === null || btnClose === void 0 ? void 0 : btnClose.addEventListener("click", closeModal);
+btnCloseConfirm === null || btnCloseConfirm === void 0 ? void 0 : btnCloseConfirm.addEventListener("click", closeModal);
 window.addEventListener("click", closeModalOnClickOutside);
 function launchModal(event) {
     modalbg

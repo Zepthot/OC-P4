@@ -2,11 +2,13 @@
 const modalbg = document.querySelector<HTMLElement>(".bground");
 const modalBtn = document.querySelectorAll<HTMLElement>(".modal-btn");
 const btnClose = document.querySelector<HTMLElement>(".close");
+const btnCloseConfirm = document.getElementById("btn-close") as HTMLElement;
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // close modal events
 btnClose?.addEventListener("click", closeModal);
+btnCloseConfirm?.addEventListener("click", closeModal);
 window.addEventListener("click", closeModalOnClickOutside);
 
 // launch modal form

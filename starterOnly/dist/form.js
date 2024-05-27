@@ -8,7 +8,9 @@ const tournament = document.getElementById("quantity");
 const locations = document.querySelectorAll("input[name='location']");
 let selectedLocation;
 const checkToS = document.getElementById("checkbox1");
-const submitButton = document.getElementById("submit-btn");
+const nextEvent = document.getElementById("checkbox2");
+const modalForm = document.querySelector(".modal-form");
+const modalConfirm = document.querySelector(".modal-confirm");
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", submitForm);
 function submitForm(event) {
     event.preventDefault();
@@ -20,19 +22,18 @@ function submitForm(event) {
             birthdate: birthdate.value,
             tournamentQty: tournament.value,
             location: selectedLocation,
+            nextEvent: nextEvent.checked,
         };
-        updateSubmitButton();
+        switchToConfirmModal();
         console.log("Form submitted with ", validData);
     }
     else {
         console.log("Form validation failed.");
     }
 }
-function updateSubmitButton() {
-    submitButton.value = "Fermer";
-    submitButton.type = "button";
-    submitButton.addEventListener("click", closeModal);
-    form === null || form === void 0 ? void 0 : form.removeEventListener("submit", submitForm);
+function switchToConfirmModal() {
+    modalForm.style.display = "none";
+    modalConfirm.style.display = "flex";
 }
 function validate() {
     let isValid = true;
@@ -65,7 +66,7 @@ function validate() {
         hideError(birthdate);
     }
     if (!tournament.value || isNaN(Number(tournament.value))) {
-        showError(tournament, "Veuillez entrer un nombre valide entre 0 et 99.");
+        showError(tournament, "Veuillez entrer un nombre valide.");
         isValid = false;
     }
     else {
