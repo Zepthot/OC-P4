@@ -31,6 +31,7 @@ function submitForm(event: SubmitEvent) {
       nextEvent: nextEvent.checked,
     };
     switchToConfirmModal();
+    form?.reset();
     console.log("Form submitted with ", validData);
   } else {
     console.log("Form validation failed.");

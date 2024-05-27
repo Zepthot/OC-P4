@@ -25,6 +25,7 @@ function submitForm(event) {
             nextEvent: nextEvent.checked,
         };
         switchToConfirmModal();
+        form === null || form === void 0 ? void 0 : form.reset();
         console.log("Form submitted with ", validData);
     }
     else {
