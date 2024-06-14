@@ -1,18 +1,40 @@
 // DOM Elements
 const form = document.querySelector<HTMLFormElement>("form[name='reserve']");
+const modalForm = document.querySelector(".modal-form") as HTMLElement;
+const modalConfirm = document.querySelector(".modal-confirm") as HTMLElement;
+const texts = document.querySelectorAll<HTMLInputElement>(
+  "input[data-type='text']"
+);
+const numbers = document.querySelectorAll<HTMLInputElement>(
+  "input[data-type='number']"
+);
+const emails = document.querySelectorAll<HTMLInputElement>(
+  "input[data-type='email']"
+);
+const dates = document.querySelectorAll<HTMLInputElement>(
+  "input[data-type='date']"
+);
+const checkboxes = document.querySelectorAll<HTMLInputElement>(
+  "input[type='checkbox']"
+);
 const firstName = document.getElementById("first") as HTMLInputElement;
 const lastName = document.getElementById("last") as HTMLInputElement;
 const email = document.getElementById("email") as HTMLInputElement;
 const birthdate = document.getElementById("birthdate") as HTMLInputElement;
 const tournament = document.getElementById("quantity") as HTMLInputElement;
-const locations = document.querySelectorAll<HTMLInputElement>(
-  "input[name='location']"
-);
-let selectedLocation: string;
-const checkToS = document.getElementById("checkbox1") as HTMLInputElement;
 const nextEvent = document.getElementById("checkbox2") as HTMLInputElement;
-const modalForm = document.querySelector(".modal-form") as HTMLElement;
-const modalConfirm = document.querySelector(".modal-confirm") as HTMLElement;
+
+function getSelectedRadioValue(name: string): string | null {
+  const radios = document.querySelectorAll<HTMLInputElement>(
+    `input[name='${name}']`
+  );
+  for (const radio of radios) {
+    if (radio.checked) {
+      return radio.value;
+    }
+  }
+  return null;
+}
 
 // submit event
 form?.addEventListener("submit", submitForm);
@@ -20,15 +42,15 @@ form?.addEventListener("submit", submitForm);
 // on submit
 function submitForm(event: SubmitEvent) {
   event.preventDefault();
-  if (validate()) {
+  if (validator()) {
     const validData = {
       firstName: firstName.value,
       lastName: lastName.value,
       email: email.value,
       birthdate: birthdate.value,
       tournamentQty: tournament.value,
-      location: selectedLocation,
-      nextEvent: nextEvent.checked,
+      location: getSelectedRadioValue("location"),
+      nextEventNotification: nextEvent.checked,
     };
     switchToConfirmModal();
     form?.reset();
@@ -44,74 +66,10 @@ function switchToConfirmModal() {
   modalConfirm.style.display = "flex";
 }
 
-// validate inputs
-function validate(): boolean {
-  let isValid = true;
-  // firstname
-  if (!firstName.value || firstName.value.length < 2) {
-    showError(firstName, "Le prénom doit contenir au moins 2 caractères.");
-    isValid = false;
-  } else {
-    hideError(firstName);
-  }
-  // lastname
-  if (!lastName.value || lastName.value.length < 2) {
-    showError(lastName, "Le nom doit contenir au moins 2 caractères.");
-    isValid = false;
-  } else {
-    hideError(lastName);
-  }
-  // email
-  if (!email.value || !validateEmail(email.value)) {
-    showError(email, "Veuillez entrer un e-mail valide.");
-    isValid = false;
-  } else {
-    hideError(email);
-  }
-  // birthdate
-  if (!birthdate.value) {
-    showError(birthdate, "Veuillez entrer une date de naissance valide.");
-    isValid = false;
-  } else {
-    hideError(birthdate);
-  }
-  // tournament quantity
-  if (!tournament.value || isNaN(Number(tournament.value))) {
-    showError(tournament, "Veuillez entrer un nombre valide.");
-    isValid = false;
-  } else {
-    hideError(tournament);
-  }
-  // tournament location
-  let anyLocationSelected = false;
-  locations.forEach((input) => {
-    if (input.checked) {
-      selectedLocation = input.value;
-      anyLocationSelected = true;
-    }
-  });
-
-  if (!anyLocationSelected) {
-    showError(locations[0], "Veuillez sélectionner un tournoi.");
-    isValid = false;
-  } else {
-    hideError(locations[0]);
-  }
-  // terms of service
-  if (!checkToS.checked) {
-    showError(checkToS, "Vous devez accepter les conditions d'utilisation.");
-    isValid = false;
-  } else {
-    hideError(checkToS);
-  }
-  return isValid;
-}
-
 // error display
-function showError(element: HTMLElement, message: string) {
+function showError(element: HTMLElement) {
   const formData = element.closest(".formData");
   if (formData) {
-    formData.setAttribute("data-error", message);
     formData.setAttribute("data-error-visible", "true");
   }
 }
@@ -120,7 +78,6 @@ function showError(element: HTMLElement, message: string) {
 function hideError(element: HTMLElement) {
   const formData = element.closest(".formData");
   if (formData) {
-    formData.removeAttribute("data-error");
     formData.setAttribute("data-error-visible", "false");
   }
 }
@@ -128,4 +85,113 @@ function hideError(element: HTMLElement) {
 function validateEmail(email: string): boolean {
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regexEmail.test(email);
+}
+
+function calculateAge(birthdate: Date): number {
+  const today = new Date();
+  let age = today.getFullYear() - birthdate.getFullYear();
+  const monthDifference = today.getMonth() - birthdate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthdate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}
+
+function validator(): boolean {
+  let isValid = true;
+  texts.forEach((input) => {
+    const min = input.dataset.min ? Number(input.dataset.min) : null;
+    const max = input.dataset.max ? Number(input.dataset.max) : null;
+
+    const valueLength = input.value.length;
+
+    if (min !== null && valueLength < min) {
+      showError(input);
+      isValid = false;
+    } else if (max !== null && valueLength > max) {
+      showError(input);
+      isValid = false;
+    } else {
+      hideError(input);
+    }
+  });
+
+  numbers.forEach((input) => {
+    const min = input.dataset.min ? Number(input.dataset.min) : null;
+    const max = input.dataset.max ? Number(input.dataset.max) : null;
+
+    const value = Number(input.value);
+
+    if (isNaN(value) || !input.value) {
+      showError(input);
+      isValid = false;
+      return;
+    }
+
+    if (min !== null && value < min) {
+      showError(input);
+      isValid = false;
+    } else if (max !== null && value > max) {
+      showError(input);
+      isValid = false;
+    } else {
+      hideError(input);
+    }
+  });
+
+  emails.forEach((input) => {
+    if (!validateEmail(input.value)) {
+      showError(input);
+      isValid = false;
+    } else {
+      hideError(input);
+    }
+  });
+
+  dates.forEach((input) => {
+    const birthdate = new Date(input.value);
+    const age = calculateAge(birthdate);
+
+    if (isNaN(age)) {
+      showError(input);
+      isValid = false;
+      return;
+    }
+
+    if (age < 18) {
+      showError(input);
+      isValid = false;
+    } else {
+      hideError(input);
+    }
+  });
+
+  const radioGroup = document.querySelector(".formData[data-radio='true']");
+  if (radioGroup) {
+    const radios = radioGroup.querySelectorAll("input[type='radio']");
+    const isSelected = Array.from(radios).some(
+      (radio) => (radio as HTMLInputElement).checked
+    );
+
+    if (!isSelected) {
+      showError(radioGroup as HTMLElement);
+    } else {
+      hideError(radioGroup as HTMLElement);
+    }
+  }
+
+  checkboxes.forEach((input) => {
+    const formData = input.closest(".formData");
+    if (formData && input.dataset.required === "true" && !input.checked) {
+      showError(formData as HTMLElement);
+    } else if (formData && input.dataset.required === "true" && input.checked) {
+      hideError(formData as HTMLElement);
+    }
+  });
+
+  return isValid;
 }

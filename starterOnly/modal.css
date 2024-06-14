@@ -135,7 +135,8 @@ main {
 }
 
 .content {
-  margin: 5% auto;
+  margin: auto;
+  margin-top: 20px;
   width: 100%;
   max-width: 500px;
   animation-name: modalopen;
@@ -304,7 +305,7 @@ input[data-error]::after {
 
 .modal-confirm {
   display: none;
-  min-height: 75vh;
+  min-height: 88.6vh;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -529,6 +530,7 @@ footer {
   .topnav {
     z-index: 2;
     margin-top: 0;
+    margin-bottom: 0;
   }
   .topnav a {
     display: none;
@@ -570,12 +572,21 @@ footer {
 
   .bground {
     background-color: unset;
-    margin-top: 6rem;
+    margin-top: 4.5rem;
     height: unset;
   }
 
   .content {
     margin: unset;
+  }
+
+  label {
+    font-size: 15px;
+    margin-bottom: 7px;
+  }
+
+  .modal-confirm {
+    min-height: 86vh;
   }
 
   .copyrights {
