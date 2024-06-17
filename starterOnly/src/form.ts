@@ -179,6 +179,7 @@ function validator(): boolean {
 
     if (!isSelected) {
       showError(radioGroup as HTMLElement);
+      isValid = false;
     } else {
       hideError(radioGroup as HTMLElement);
     }

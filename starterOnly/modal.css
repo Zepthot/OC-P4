@@ -56,12 +56,14 @@ img {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  text-decoration: underline;
 }
 
 .topnav a.active {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  text-decoration: underline;
 }
 
 .topnav .icon {
@@ -445,6 +447,7 @@ input[data-error]::after {
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;
@@ -580,13 +583,30 @@ footer {
     margin: unset;
   }
 
+  .modal-body {
+    margin: 0;
+  }
+
+  .formData[data-error]::after {
+    margin-bottom: 0;
+  }
+
   label {
-    font-size: 15px;
-    margin-bottom: 7px;
+    font-size: 14px;
+    margin-bottom: 0px;
   }
 
   .modal-confirm {
     min-height: 86vh;
+  }
+
+  .text-label {
+    font-size: 13px;
+  }
+
+  .btn-submit {
+    font-size: 14px;
+    padding: 10px 30px;
   }
 
   .copyrights {

@@ -143,6 +143,7 @@ function validator() {
         const isSelected = Array.from(radios).some((radio) => radio.checked);
         if (!isSelected) {
             showError(radioGroup);
+            isValid = false;
         }
         else {
             hideError(radioGroup);
