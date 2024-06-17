@@ -1,8 +1,8 @@
 // DOM Elements
-const modalbg = document.querySelector<HTMLElement>(".bground");
-const modalBtn = document.querySelectorAll<HTMLElement>(".modal-btn");
-const btnClose = document.querySelector<HTMLElement>(".close");
-const btnCloseConfirm = document.getElementById("btn-close") as HTMLElement;
+const modalbg = document.querySelector(".bground");
+const modalBtn = document.querySelectorAll(".modal-btn");
+const btnClose = document.querySelector(".close");
+const btnCloseConfirm = document.getElementById("btn-close");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -12,7 +12,7 @@ btnCloseConfirm?.addEventListener("click", closeModal);
 window.addEventListener("click", closeModalOnClickOutside);
 
 // launch modal form
-function launchModal(event: Event) {
+function launchModal(event) {
   modalbg
     ? (modalbg.style.display = "block")
     : console.error("Element with class 'bground' not found.");
@@ -28,8 +28,8 @@ function closeModal() {
 }
 
 // close modal on click outside
-function closeModalOnClickOutside(event: MouseEvent) {
-  const target = event.target as HTMLElement;
+function closeModalOnClickOutside(event) {
+  const target = event.target;
   if (
     modalbg &&
     modalbg.style.display === "block" &&

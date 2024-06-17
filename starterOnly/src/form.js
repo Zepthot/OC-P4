@@ -1,33 +1,21 @@
 // DOM Elements
-const form = document.querySelector<HTMLFormElement>("form[name='reserve']");
-const modalForm = document.querySelector(".modal-form") as HTMLElement;
-const modalConfirm = document.querySelector(".modal-confirm") as HTMLElement;
-const texts = document.querySelectorAll<HTMLInputElement>(
-  "input[data-type='text']"
-);
-const numbers = document.querySelectorAll<HTMLInputElement>(
-  "input[data-type='number']"
-);
-const emails = document.querySelectorAll<HTMLInputElement>(
-  "input[data-type='email']"
-);
-const dates = document.querySelectorAll<HTMLInputElement>(
-  "input[data-type='date']"
-);
-const checkboxes = document.querySelectorAll<HTMLInputElement>(
-  "input[type='checkbox']"
-);
-const firstName = document.getElementById("first") as HTMLInputElement;
-const lastName = document.getElementById("last") as HTMLInputElement;
-const email = document.getElementById("email") as HTMLInputElement;
-const birthdate = document.getElementById("birthdate") as HTMLInputElement;
-const tournament = document.getElementById("quantity") as HTMLInputElement;
-const nextEvent = document.getElementById("checkbox2") as HTMLInputElement;
+const form = document.querySelector("form[name='reserve']");
+const modalForm = document.querySelector(".modal-form");
+const modalConfirm = document.querySelector(".modal-confirm");
+const texts = document.querySelectorAll("input[data-type='text']");
+const numbers = document.querySelectorAll("input[data-type='number']");
+const emails = document.querySelectorAll("input[data-type='email']");
+const dates = document.querySelectorAll("input[data-type='date']");
+const checkboxes = document.querySelectorAll("input[type='checkbox']");
+const firstName = document.getElementById("first");
+const lastName = document.getElementById("last");
+const email = document.getElementById("email");
+const birthdate = document.getElementById("birthdate");
+const tournament = document.getElementById("quantity");
+const nextEvent = document.getElementById("checkbox2");
 
-function getSelectedRadioValue(name: string): string | null {
-  const radios = document.querySelectorAll<HTMLInputElement>(
-    `input[name='${name}']`
-  );
+function getSelectedRadioValue(name) {
+  const radios = document.querySelectorAll(`input[name='${name}']`);
   for (const radio of radios) {
     if (radio.checked) {
       return radio.value;
@@ -40,7 +28,7 @@ function getSelectedRadioValue(name: string): string | null {
 form?.addEventListener("submit", submitForm);
 
 // on submit
-function submitForm(event: SubmitEvent) {
+function submitForm(event) {
   event.preventDefault();
   if (validator()) {
     const validData = {
@@ -67,7 +55,7 @@ function switchToConfirmModal() {
 }
 
 // error display
-function showError(element: HTMLElement) {
+function showError(element) {
   const formData = element.closest(".formData");
   if (formData) {
     formData.setAttribute("data-error-visible", "true");
@@ -75,19 +63,19 @@ function showError(element: HTMLElement) {
 }
 
 // error masking
-function hideError(element: HTMLElement) {
+function hideError(element) {
   const formData = element.closest(".formData");
   if (formData) {
     formData.setAttribute("data-error-visible", "false");
   }
 }
 
-function validateEmail(email: string): boolean {
+function validateEmail(email) {
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regexEmail.test(email);
 }
 
-function calculateAge(birthdate: Date): number {
+function calculateAge(birthdate) {
   const today = new Date();
   let age = today.getFullYear() - birthdate.getFullYear();
   const monthDifference = today.getMonth() - birthdate.getMonth();
@@ -101,7 +89,7 @@ function calculateAge(birthdate: Date): number {
   return age;
 }
 
-function validator(): boolean {
+function validator() {
   let isValid = true;
   texts.forEach((input) => {
     const min = input.dataset.min ? Number(input.dataset.min) : null;
@@ -173,24 +161,22 @@ function validator(): boolean {
   const radioGroup = document.querySelector(".formData[data-radio='true']");
   if (radioGroup) {
     const radios = radioGroup.querySelectorAll("input[type='radio']");
-    const isSelected = Array.from(radios).some(
-      (radio) => (radio as HTMLInputElement).checked
-    );
+    const isSelected = Array.from(radios).some((radio) => radio.checked);
 
     if (!isSelected) {
-      showError(radioGroup as HTMLElement);
+      showError(radioGroup);
       isValid = false;
     } else {
-      hideError(radioGroup as HTMLElement);
+      hideError(radioGroup);
     }
   }
 
   checkboxes.forEach((input) => {
     const formData = input.closest(".formData");
     if (formData && input.dataset.required === "true" && !input.checked) {
-      showError(formData as HTMLElement);
+      showError(formData);
     } else if (formData && input.dataset.required === "true" && input.checked) {
-      hideError(formData as HTMLElement);
+      hideError(formData);
     }
   });
 
