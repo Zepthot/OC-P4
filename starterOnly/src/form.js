@@ -175,6 +175,7 @@ function validator() {
     const formData = input.closest(".formData");
     if (formData && input.dataset.required === "true" && !input.checked) {
       showError(formData);
+      isValid = false;
     } else if (formData && input.dataset.required === "true" && input.checked) {
       hideError(formData);
     }
